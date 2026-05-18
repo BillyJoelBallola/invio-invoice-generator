@@ -52,6 +52,7 @@ const InputWithLabel = ({
           }
         }}
         {...props}
+        value={value}
         required
       />
       {type === "password" && (
@@ -63,6 +64,7 @@ const InputWithLabel = ({
             type="checkbox"
             id={`showPassword-${id}`}
             onChange={(e) => setShowPassword(e.target.checked)}
+            value={value}
           />
           <label
             htmlFor={`showPassword-${id}`}

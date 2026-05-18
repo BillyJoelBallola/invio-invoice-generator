@@ -4,6 +4,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { signIn } from "@/actions/auth.action";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 import {
   Dialog,
   DialogContent,
@@ -18,6 +19,7 @@ import { Loader } from "lucide-react";
 function SignInDialog() {
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({ username: "", password: "" });
+  const router = useRouter();
 
   const isDisabled =
     isLoading || formData.username === "" || formData.password === "";
@@ -29,7 +31,7 @@ function SignInDialog() {
     try {
       const response = await signIn(formData);
       if (response.error) return toast.error(response.error);
-      if (response.success) window.location.reload();
+      if (response.success) router.push("/dashboard");
     } catch {
       toast.error("An error occurred while signing in.");
     } finally {

@@ -34,6 +34,7 @@ model Invoice {
   number    String        @unique // e.g. INV-001
   status    InvoiceStatus @default(DRAFT)
   dueDate   DateTime
+  total     Float         @default(0)
   notes     String?
   userId    String
   clientId  String

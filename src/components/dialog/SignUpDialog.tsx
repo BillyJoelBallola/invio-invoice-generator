@@ -105,7 +105,7 @@ function SignUpDialog() {
                 Creating account...
               </>
             ) : (
-              "Sign Un"
+              "Sign Up"
             )}
           </Button>
         </form>

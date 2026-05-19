@@ -1,17 +1,17 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { toast } from "sonner";
 import { useState } from "react";
 import { deleteInvoice } from "@/actions/invoice.action";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Trash2, FileText, Pen, Pencil } from "lucide-react";
+import { ChevronLeft, ChevronRight, FileText, Pencil } from "lucide-react";
 import { format } from "date-fns";
 import { InvoiceStatus } from "@/generated/prisma";
 import DeleteDialog from "@/components/dialog/DeleteDialog";
+import { Button } from "@/components/ui/button";
 
 type Invoice = {
   id: string;
@@ -30,8 +30,17 @@ const statusColor: Record<InvoiceStatus, string> = {
   OVERDUE: "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200",
 };
 
-function InvoiceList({ invoices }: { invoices: Invoice[] }) {
+function InvoiceList({
+  invoices,
+  totalPages,
+  currentPage,
+}: {
+  invoices: Invoice[];
+  totalPages: number;
+  currentPage: number;
+}) {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [isDeleting, setIsDeleting] = useState(false);
 
   const handleDelete = async (id: string) => {
@@ -46,6 +55,12 @@ function InvoiceList({ invoices }: { invoices: Invoice[] }) {
     } finally {
       setIsDeleting(false);
     }
+  };
+
+  const handlePageChange = (page: number) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("page", String(page));
+    router.push(`/invoices?${params.toString()}`);
   };
 
   if (invoices.length === 0) {
@@ -76,7 +91,7 @@ function InvoiceList({ invoices }: { invoices: Invoice[] }) {
             </div>
             <div className="flex items-center gap-4">
               <div className="text-right">
-                <p className="text-2xl font-mono font-semibold">
+                <p className="text-lg font-mono font-semibold">
                   ₱{invoice.total.toLocaleString()}
                 </p>
                 <Badge className={`text-xs ${statusColor[invoice.status]}`}>
@@ -101,6 +116,38 @@ function InvoiceList({ invoices }: { invoices: Invoice[] }) {
           </CardContent>
         </Card>
       ))}
+
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <div className="flex items-center justify-center gap-2 pt-4">
+          <Button
+            variant="outline"
+            size="icon"
+            disabled={currentPage === 1}
+            onClick={() => handlePageChange(currentPage - 1)}
+          >
+            <ChevronLeft className="size-4" />
+          </Button>
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+            <Button
+              key={page}
+              variant={currentPage === page ? "default" : "outline"}
+              size="icon"
+              onClick={() => handlePageChange(page)}
+            >
+              {page}
+            </Button>
+          ))}
+          <Button
+            variant="outline"
+            size="icon"
+            disabled={currentPage === totalPages}
+            onClick={() => handlePageChange(currentPage + 1)}
+          >
+            <ChevronRight className="size-4" />
+          </Button>
+        </div>
+      )}
     </div>
   );
 }

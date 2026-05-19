@@ -7,12 +7,13 @@ import {
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import RecentInvoices from "@/components/RecentInvoices";
+import RevenueChart from "@/components/RevenueChart";
+import StatusChart from "@/components/StatusChart";
 
 export const dynamic = "force-dynamic";
 
 async function DashboardPage() {
   const data = await getDashboardData();
-
   if (!data) return null;
 
   const summaryCards = [
@@ -68,6 +69,12 @@ async function DashboardPage() {
             </CardContent>
           </Card>
         ))}
+      </div>
+
+      {/* Charts */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <RevenueChart data={data.monthlyRevenue} />
+        <StatusChart data={data.statusBreakdown} />
       </div>
 
       {/* Recent Invoices */}

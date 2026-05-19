@@ -14,8 +14,8 @@ export async function sendInvoiceEmail(invoiceId: string) {
   try {
     await resend.emails.send({
       from: process.env.EMAIL_FROM!,
-      to: invoice.client.email,
-      subject: `Invoice ${invoice.number} from Invio`,
+      to: [invoice.client.email],
+      subject: `Invoice [${invoice.number}] from Invio`,
       html: `
         <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
           <h1 style="color: #6366f1;">Invio</h1>

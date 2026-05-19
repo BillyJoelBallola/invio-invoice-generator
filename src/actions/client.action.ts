@@ -3,15 +3,51 @@
 import prisma from "@/lib/prisma";
 import { currentUser } from "@/actions/user.action";
 
-export async function getClients() {
+export async function getClients(options?: {
+  search?: string;
+  page?: number;
+  limit?: number;
+}) {
   const user = await currentUser();
   if (!user) return null;
 
-  return prisma.client.findMany({
-    where: { userId: user.id },
-    orderBy: { createdAt: "desc" },
-    include: { _count: { select: { invoices: true } } },
-  });
+  const page = options?.page ?? 1;
+  const limit = options?.limit ?? 10;
+  const skip = (page - 1) * limit;
+
+  const where = {
+    userId: user.id,
+    ...(options?.search
+      ? {
+          OR: [
+            {
+              name: { contains: options.search, mode: "insensitive" as const },
+            },
+            {
+              email: { contains: options.search, mode: "insensitive" as const },
+            },
+          ],
+        }
+      : {}),
+  };
+
+  const [clients, total] = await Promise.all([
+    prisma.client.findMany({
+      where,
+      orderBy: { createdAt: "desc" },
+      include: { _count: { select: { invoices: true } } },
+      skip,
+      take: limit,
+    }),
+    prisma.client.count({ where }),
+  ]);
+
+  return {
+    clients,
+    total,
+    pages: Math.ceil(total / limit),
+    page,
+  };
 }
 
 export async function getClient(id: string) {

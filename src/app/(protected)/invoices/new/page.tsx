@@ -5,7 +5,7 @@ import BackButton from "@/components/BackButton";
 export const dynamic = "force-dynamic";
 
 async function NewInvoicePage() {
-  const clients = await getClients();
+  const result = await getClients();
 
   return (
     <div className="space-y-6">
@@ -13,7 +13,7 @@ async function NewInvoicePage() {
         <BackButton />
         <h1 className="text-2xl font-semibold">New Invoice</h1>
       </div>
-      <InvoiceForm clients={clients ?? []} />
+      <InvoiceForm clients={result?.clients ?? []} />
     </div>
   );
 }

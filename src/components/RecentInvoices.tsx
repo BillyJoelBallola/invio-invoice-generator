@@ -32,7 +32,7 @@ function RecentInvoices({ invoices }: { invoices: Invoice[] }) {
             No invoices yet.
           </p>
         ) : (
-          <div className="space-y-3">
+          <div>
             {invoices.map((invoice) => (
               <Link
                 key={invoice.id}

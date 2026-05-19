@@ -103,6 +103,7 @@ function ClientDialog({ client }: { client?: Client }) {
             onChange={(value) =>
               setFormData((prev) => ({ ...prev, name: value as string }))
             }
+            required
           />
           <InputWithLabel
             id="email"
@@ -112,11 +113,12 @@ function ClientDialog({ client }: { client?: Client }) {
             onChange={(value) =>
               setFormData((prev) => ({ ...prev, email: value as string }))
             }
+            required
           />
           <InputWithLabel
             id="phone"
             label="Phone"
-            placeholder="Enter client phone"
+            placeholder="Enter client phone (optional)"
             value={formData.phone}
             onChange={(value) =>
               setFormData((prev) => ({ ...prev, phone: value as string }))
@@ -125,7 +127,7 @@ function ClientDialog({ client }: { client?: Client }) {
           <InputWithLabel
             id="address"
             label="Address"
-            placeholder="Enter client address"
+            placeholder="Enter client address (optional)"
             value={formData.address}
             onChange={(value) =>
               setFormData((prev) => ({ ...prev, address: value as string }))

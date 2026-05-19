@@ -10,7 +10,10 @@ async function EditInvoicePage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const [invoice, clients] = await Promise.all([getInvoice(id), getClients()]);
+  const [invoice, resultClient] = await Promise.all([
+    getInvoice(id),
+    getClients(),
+  ]);
 
   if (!invoice) return notFound();
 
@@ -20,7 +23,7 @@ async function EditInvoicePage({
         <BackButton />
         <h1 className="text-2xl font-semibold">Edit Invoice</h1>
       </div>
-      <InvoiceForm clients={clients ?? []} invoice={invoice} />
+      <InvoiceForm clients={resultClient?.clients ?? []} invoice={invoice} />
     </div>
   );
 }

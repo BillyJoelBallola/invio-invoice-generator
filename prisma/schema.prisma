@@ -8,13 +8,16 @@ datasource db {
 }
 
 model User {
-  id        String    @id @default(cuid())
-  username  String    @unique
-  email     String    @unique
-  password  String
-  invoices  Invoice[]
-  clients   Client[]
-  createdAt DateTime  @default(now())
+  id           String    @id @default(cuid())
+  username     String    @unique
+  email        String    @unique
+  password     String
+  businessName String?
+  address      String?
+  phone        String?
+  invoices     Invoice[]
+  clients      Client[]
+  createdAt    DateTime  @default(now())
 }
 
 model Client {

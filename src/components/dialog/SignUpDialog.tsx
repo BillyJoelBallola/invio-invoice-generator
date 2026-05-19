@@ -24,6 +24,15 @@ function SignUpDialog() {
     confirmPassword: "",
   });
 
+  const setDefaultData = () => {
+    setFormData({
+      username: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    });
+  };
+
   const isDisabled =
     isLoading ||
     formData.username === "" ||
@@ -38,7 +47,10 @@ function SignUpDialog() {
     try {
       const response = await signUp(formData);
       if (response.error) return toast.error(response.error);
-      if (response.success) toast.success("Account created! Please sign in.");
+      if (response.success) {
+        toast.success("Account created! Please sign in.");
+        setDefaultData();
+      }
     } catch {
       toast.error("An error occurred while signing up.");
     } finally {
@@ -47,7 +59,7 @@ function SignUpDialog() {
   };
 
   return (
-    <Dialog>
+    <Dialog onOpenChange={() => setDefaultData()}>
       <DialogTrigger asChild>
         <Button>Sign Up</Button>
       </DialogTrigger>
@@ -65,6 +77,7 @@ function SignUpDialog() {
             onChange={(value) =>
               setFormData((prev) => ({ ...prev, username: value as string }))
             }
+            required
           />
           <InputWithLabel
             id="email"
@@ -74,6 +87,7 @@ function SignUpDialog() {
             onChange={(value) =>
               setFormData((prev) => ({ ...prev, email: value as string }))
             }
+            required
           />
           <InputWithLabel
             id="password"
@@ -84,6 +98,7 @@ function SignUpDialog() {
             onChange={(value) =>
               setFormData((prev) => ({ ...prev, password: value as string }))
             }
+            required
           />
           <InputWithLabel
             id="confirmPassword"
@@ -97,6 +112,7 @@ function SignUpDialog() {
                 confirmPassword: value as string,
               }))
             }
+            required
           />
           <Button type="submit" disabled={isDisabled} className="w-full">
             {isLoading ? (

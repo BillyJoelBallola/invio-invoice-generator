@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
-import { Trash2, Users } from "lucide-react";
+import { ChevronLeft, ChevronRight, Trash2, Users } from "lucide-react";
 import { deleteClient } from "@/actions/client.action";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -19,8 +19,17 @@ type Client = {
   _count: { invoices: number };
 };
 
-function ClientList({ clients }: { clients: Client[] }) {
+function ClientList({
+  clients,
+  totalPages,
+  currentPage,
+}: {
+  clients: Client[];
+  totalPages: number;
+  currentPage: number;
+}) {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [isDeleting, setIsDeleting] = useState(false);
 
   const handleDelete = async (id: string) => {
@@ -35,6 +44,12 @@ function ClientList({ clients }: { clients: Client[] }) {
     } finally {
       setIsDeleting(false);
     }
+  };
+
+  const handlePageChange = (page: number) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("page", String(page));
+    router.push(`/clients?${params.toString()}`);
   };
 
   if (clients.length === 0) {
@@ -63,7 +78,7 @@ function ClientList({ clients }: { clients: Client[] }) {
             </div>
             <div className="flex items-center gap-6">
               <div className="text-right">
-                <p className="text-sm font-semibold">
+                <p className="text-lg font-semibold">
                   {client._count.invoices}
                 </p>
                 <p className="text-xs text-muted-foreground">invoices</p>
@@ -81,6 +96,38 @@ function ClientList({ clients }: { clients: Client[] }) {
           </CardContent>
         </Card>
       ))}
+
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <div className="flex items-center justify-center gap-2 pt-4">
+          <Button
+            variant="outline"
+            size="icon"
+            disabled={currentPage === 1}
+            onClick={() => handlePageChange(currentPage - 1)}
+          >
+            <ChevronLeft className="size-4" />
+          </Button>
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+            <Button
+              key={page}
+              variant={currentPage === page ? "default" : "outline"}
+              size="icon"
+              onClick={() => handlePageChange(page)}
+            >
+              {page}
+            </Button>
+          ))}
+          <Button
+            variant="outline"
+            size="icon"
+            disabled={currentPage === totalPages}
+            onClick={() => handlePageChange(currentPage + 1)}
+          >
+            <ChevronRight className="size-4" />
+          </Button>
+        </div>
+      )}
     </div>
   );
 }

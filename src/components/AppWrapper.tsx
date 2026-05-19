@@ -1,3 +1,4 @@
+import { markOverdueInvoices } from "@/actions/invoice.action";
 import { currentUser } from "@/actions/user.action";
 import Authentication from "@/components/Authentication";
 import Sidebar from "@/components/Sidebar";
@@ -12,6 +13,8 @@ async function AppWrapper({ children }: { children: React.ReactNode }) {
       </div>
     );
   }
+
+  await markOverdueInvoices();
 
   return (
     <div className="flex min-h-screen">

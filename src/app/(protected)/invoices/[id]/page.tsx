@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import BackButton from "@/components/BackButton";
 import InvoiceStatusSelect from "@/components/InvoiceStatusSelect";
 import InvoiceActions from "@/components/InvoiceActions";
+import InvoicePreview from "@/components/InvoicePreview";
 
 export const dynamic = "force-dynamic";
 
@@ -28,11 +29,15 @@ async function InvoiceDetailPage({
 
   return (
     <div className="space-y-6">
-      <InvoiceActions
-        invoiceId={invoice.id}
-        invoiceNumber={invoice.number}
-        currentStatus={invoice.status}
-      />
+      <div className="flex items-center gap-2">
+        <InvoicePreview invoice={invoice} />
+        <InvoiceActions
+          invoiceId={invoice.id}
+          invoiceNumber={invoice.number}
+          currentStatus={invoice.status}
+        />
+      </div>
+
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
           <BackButton />

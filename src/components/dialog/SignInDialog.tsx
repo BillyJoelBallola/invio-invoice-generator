@@ -17,9 +17,9 @@ import InputWithLabel from "@/components/input/InputWithLabel";
 import { Loader } from "lucide-react";
 
 function SignInDialog() {
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({ username: "", password: "" });
-  const router = useRouter();
 
   const isDisabled =
     isLoading || formData.username === "" || formData.password === "";
@@ -60,6 +60,7 @@ function SignInDialog() {
             onChange={(value) =>
               setFormData((prev) => ({ ...prev, username: value as string }))
             }
+            required
           />
           <InputWithLabel
             id="password"
@@ -70,6 +71,7 @@ function SignInDialog() {
             onChange={(value) =>
               setFormData((prev) => ({ ...prev, password: value as string }))
             }
+            required
           />
           <Button type="submit" disabled={isDisabled} className="w-full">
             {isLoading ? (

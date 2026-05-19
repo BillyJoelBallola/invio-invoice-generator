@@ -79,11 +79,7 @@ function InvoiceActions({
         <Download className="size-4" />
         {isDownloading ? "Downloading..." : "Download PDF"}
       </Button>
-      <Button
-        className="cursor-pointer"
-        onClick={handleSend}
-        disabled={isSending}
-      >
+      <Button className="cursor-pointer" onClick={handleSend} disabled={true}>
         <Send className="size-4" />
         {isSending ? "Sending..." : "Send Invoice"}
       </Button>

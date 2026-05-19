@@ -15,6 +15,7 @@ type InputWithLabelProps = {
   id: string;
   onChange: (value: string | number) => void;
   value: string | number;
+  required?: boolean;
 } & React.HTMLAttributes<HTMLInputElement>;
 
 const InputWithLabel = ({
@@ -27,6 +28,7 @@ const InputWithLabel = ({
   containerClassName,
   id,
   value,
+  required,
   ...props
 }: InputWithLabelProps) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -53,7 +55,7 @@ const InputWithLabel = ({
         }}
         {...props}
         value={value}
-        required
+        required={required ?? false}
       />
       {type === "password" && (
         <div

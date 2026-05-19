@@ -2,21 +2,70 @@
 
 import prisma from "@/lib/prisma";
 import { currentUser } from "@/actions/user.action";
+import { InvoiceStatus } from "@/generated/prisma";
 
 async function generateInvoiceNumber(userId: string) {
   const count = await prisma.invoice.count({ where: { userId } });
   return `INV-${String(count + 1).padStart(3, "0")}`;
 }
 
-export async function getInvoices() {
+export async function getInvoices(options?: {
+  status?: string;
+  search?: string;
+  page?: number;
+  limit?: number;
+}) {
   const user = await currentUser();
   if (!user) return null;
 
-  return prisma.invoice.findMany({
-    where: { userId: user.id },
-    orderBy: { createdAt: "desc" },
-    include: { client: true },
-  });
+  const page = options?.page ?? 1;
+  const limit = options?.limit ?? 10;
+  const skip = (page - 1) * limit;
+
+  const where = {
+    userId: user.id,
+    ...(options?.status && options.status !== "ALL"
+      ? { status: options.status as InvoiceStatus }
+      : {}),
+    ...(options?.search
+      ? {
+          OR: [
+            {
+              number: {
+                contains: options.search,
+                mode: "insensitive" as const,
+              },
+            },
+            {
+              client: {
+                name: {
+                  contains: options.search,
+                  mode: "insensitive" as const,
+                },
+              },
+            },
+          ],
+        }
+      : {}),
+  };
+
+  const [invoices, total] = await Promise.all([
+    prisma.invoice.findMany({
+      where,
+      orderBy: { createdAt: "desc" },
+      include: { client: true },
+      skip,
+      take: limit,
+    }),
+    prisma.invoice.count({ where }),
+  ]);
+
+  return {
+    invoices,
+    total,
+    pages: Math.ceil(total / limit),
+    page,
+  };
 }
 
 export async function getInvoice(id: string) {
@@ -152,5 +201,26 @@ export async function deleteInvoice(id: string) {
   } catch (error) {
     console.error(error);
     return { error: "An error occurred while deleting invoice." };
+  }
+}
+
+export async function markOverdueInvoices() {
+  const user = await currentUser();
+  if (!user) return { error: "Unauthorized." };
+
+  try {
+    const updated = await prisma.invoice.updateMany({
+      where: {
+        userId: user.id,
+        status: "SENT",
+        dueDate: { lt: new Date() },
+      },
+      data: { status: "OVERDUE" },
+    });
+
+    return { success: true, count: updated.count };
+  } catch (error) {
+    console.error(error);
+    return { error: "An error occurred while marking overdue invoices." };
   }
 }

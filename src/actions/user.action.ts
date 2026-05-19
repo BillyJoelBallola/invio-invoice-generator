@@ -1,9 +1,10 @@
 "use server";
 
-import { getJwtSecretKey, TOKEN_NAME } from "../lib/auth";
-import prisma from "../lib/prisma";
+import { getJwtSecretKey, TOKEN_NAME } from "@/lib/auth";
+import prisma from "@/lib/prisma";
 import { jwtVerify } from "jose";
 import { cookies } from "next/headers";
+import { signOut } from "@/actions/auth.action";
 import bcrypt from "bcrypt";
 
 export async function currentUser() {
@@ -104,5 +105,32 @@ export async function updatePassword({
   } catch (error) {
     console.error(error);
     return { error: "An error occurred while updating password." };
+  }
+}
+
+export async function deleteAccount(id: string, username: string) {
+  const user = await currentUser();
+  if (!user) return { error: "Unauthorized." };
+
+  if (user.id !== id) {
+    return { error: "Forbidden." };
+  }
+
+  if (user.username !== username) {
+    return { error: "Username did not match. Try again." };
+  }
+
+  try {
+    await prisma.user.delete({
+      where: {
+        id,
+      },
+    });
+
+    await signOut();
+    return { success: true };
+  } catch (error) {
+    console.error(error);
+    return { error: "An error occurred while deleting account." };
   }
 }

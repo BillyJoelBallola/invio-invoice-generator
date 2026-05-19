@@ -31,11 +31,27 @@ function Sidebar({ user }: { user: { username: string; email: string } }) {
 
   return (
     <aside
-      className={`${isSidebarOpen ? "w-64" : "w-20"} group duration-200 relative min-h-screen border-r px-4 py-6 flex flex-col justify-between`}
+      className={`
+        ${isSidebarOpen ? "w-64" : "w-20"}
+        group
+        sticky top-0
+        h-dvh
+        shrink-0
+        border-r
+        px-4 py-6
+        flex flex-col justify-between
+        duration-200
+      `}
     >
       <button
         onClick={() => setIsSidebarOpen((current) => !current)}
-        className="duration-200 opacity-0 group-hover:opacity-100 cursor-pointer absolute -right-4 top-[50%] translate-y-[-50%] rounded-full text-muted-foreground bg-neutral-50 dark:bg-neutral-900 p-2 border"
+        className="
+          duration-200 opacity-0 
+          group-hover:opacity-100 cursor-pointer 
+          absolute -right-4 top-[50%] translate-y-[-50%] 
+          rounded-full text-muted-foreground 
+          bg-neutral-50 dark:bg-neutral-900 
+          p-2 border"
       >
         {isSidebarOpen ? (
           <ArrowLeftToLine className="size-4" />

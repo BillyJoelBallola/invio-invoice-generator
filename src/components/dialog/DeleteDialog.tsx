@@ -15,7 +15,7 @@ import { Loader, Trash2 } from "lucide-react";
 import { useState } from "react";
 
 type DeleteDialogProps = {
-  description: string;
+  description: string | React.ReactElement;
   isDeleting: boolean;
   handleDelete: (id: string) => Promise<string | number | undefined>;
   id: string;

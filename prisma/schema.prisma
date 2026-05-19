@@ -27,7 +27,7 @@ model Client {
   address   String?
   phone     String?
   userId    String
-  user      User      @relation(fields: [userId], references: [id])
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   invoices  Invoice[]
   createdAt DateTime  @default(now())
 }
@@ -41,8 +41,8 @@ model Invoice {
   notes     String?
   userId    String
   clientId  String
-  user      User          @relation(fields: [userId], references: [id])
-  client    Client        @relation(fields: [clientId], references: [id])
+  user      User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  client    Client        @relation(fields: [clientId], references: [id], onDelete: Cascade)
   items     InvoiceItem[]
   createdAt DateTime      @default(now())
 }
@@ -53,7 +53,7 @@ model InvoiceItem {
   quantity    Int
   price       Float
   invoiceId   String
-  invoice     Invoice @relation(fields: [invoiceId], references: [id])
+  invoice     Invoice @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
 }
 
 enum InvoiceStatus {

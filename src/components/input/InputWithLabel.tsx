@@ -6,7 +6,7 @@ import { Eye, EyeClosed } from "lucide-react";
 import { useState } from "react";
 
 type InputWithLabelProps = {
-  label: string;
+  label?: string;
   type?: "text" | "number" | "password";
   placeholder?: string;
   className?: string;

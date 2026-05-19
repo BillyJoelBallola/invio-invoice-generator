@@ -17,9 +17,10 @@ async function AppWrapper({ children }: { children: React.ReactNode }) {
   await markOverdueInvoices();
 
   return (
-    <div className="flex min-h-screen">
+    <div className="flex h-dvh overflow-hidden">
       <Sidebar user={user} />
-      <main className="flex-1 p-6">{children}</main>
+
+      <main className="flex-1 overflow-y-auto p-6">{children}</main>
     </div>
   );
 }

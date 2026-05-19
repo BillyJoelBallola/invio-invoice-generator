@@ -49,6 +49,7 @@ function ModeToggle({ size, variant }: ModeToggleProps) {
       variant={variant ? variant : "outline"}
       size={size ? size : "icon"}
       onClick={() => toggleTheme()}
+      className="cursor-pointer"
     >
       {theme === "dark" ? (
         <Sun className="size-4" />

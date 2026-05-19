@@ -1,6 +1,7 @@
 import { currentUser } from "@/actions/user.action";
 import ProfileForm from "@/components/form/ProfileForm";
 import PasswordForm from "@/components/form/PasswordForm";
+import AccountDelete from "@/components/AccountDelete";
 
 export const dynamic = "force-dynamic";
 
@@ -14,6 +15,7 @@ async function SettingsPage() {
       <div className="grid gap-6">
         <ProfileForm user={user} />
         <PasswordForm />
+        <AccountDelete userId={user.id} />
       </div>
     </div>
   );

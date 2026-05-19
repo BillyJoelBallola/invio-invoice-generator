@@ -1,7 +1,7 @@
 "use server";
 
-import { getJwtSecretKey, TOKEN_NAME } from "../lib/auth";
-import prisma from "../lib/prisma";
+import { getJwtSecretKey, TOKEN_NAME } from "@/lib/auth";
+import prisma from "@/lib/prisma";
 import bcrypt from "bcrypt";
 import { SignJWT } from "jose";
 import { cookies } from "next/headers";

@@ -1,7 +1,6 @@
 "use client";
 
 import { signOut } from "@/actions/auth.action";
-import { useRouter } from "next/navigation";
 import { Loader, LogOut } from "lucide-react";
 import { toast } from "sonner";
 
@@ -24,13 +23,11 @@ type SignOutDialogProps = {
 function SignOutDialog({ buttonContent }: SignOutDialogProps) {
   const [isSigningOut, setIsSigningOut] = useState(false);
 
-  const route = useRouter();
-
   const handleSignOut = async () => {
     setIsSigningOut(true);
     try {
       await signOut();
-      route.replace("/");
+      return (window.location.href = "/");
     } catch (error) {
       toast.error("Error occured while signing out");
     } finally {
@@ -40,7 +37,10 @@ function SignOutDialog({ buttonContent }: SignOutDialogProps) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline" className="rounded-lg text-sm w-full">
+        <Button
+          variant="outline"
+          className="rounded-lg text-sm w-full cursor-pointer"
+        >
           {buttonContent ? (
             buttonContent
           ) : (

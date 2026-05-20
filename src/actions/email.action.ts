@@ -12,9 +12,9 @@ export async function sendInvoiceEmail(invoiceId: string) {
   if (pdf.error || !pdf.buffer) return { error: pdf.error };
 
   try {
-    await resend.emails.send({
+    const emailResult = await resend.emails.send({
       from: process.env.EMAIL_FROM!,
-      to: [invoice.client.email],
+      to: invoice.client.email,
       subject: `Invoice [${invoice.number}] from Invio`,
       html: `
         <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">

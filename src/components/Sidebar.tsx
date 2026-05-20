@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -29,10 +29,29 @@ function Sidebar({ user }: { user: { username: string; email: string } }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const pathname = usePathname();
 
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 1024) {
+        setIsSidebarOpen(false);
+      } else {
+        setIsSidebarOpen(true);
+      }
+    };
+
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   return (
     <aside
       className={`
         ${isSidebarOpen ? "w-64" : "w-20"}
+        transition-all
         group
         sticky top-0
         h-dvh
@@ -46,6 +65,7 @@ function Sidebar({ user }: { user: { username: string; email: string } }) {
       <button
         onClick={() => setIsSidebarOpen((current) => !current)}
         className="
+          hidden lg:block
           duration-200 opacity-0 
           group-hover:opacity-100 cursor-pointer 
           absolute -right-4 top-[50%] translate-y-[-50%] 

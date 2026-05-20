@@ -19,9 +19,9 @@ async function EditInvoicePage({
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center gap-4">
+      <div className="flex items-center md:gap-4">
         <BackButton />
-        <h1 className="text-2xl font-semibold">Edit Invoice</h1>
+        <h1 className="text-xl md:text-2xl font-semibold">Edit Invoice</h1>
       </div>
       <InvoiceForm clients={resultClient?.clients ?? []} invoice={invoice} />
     </div>

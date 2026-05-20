@@ -12,6 +12,7 @@ import { format } from "date-fns";
 import { InvoiceStatus } from "@/generated/prisma";
 import DeleteDialog from "@/components/dialog/DeleteDialog";
 import { Button } from "@/components/ui/button";
+import CardMobileMenu from "@/components/CardMenu";
 
 type Invoice = {
   id: string;
@@ -75,8 +76,30 @@ function InvoiceList({
   return (
     <div className="space-y-3">
       {invoices.map((invoice) => (
-        <Card key={invoice.id}>
+        <Card key={invoice.id} className="relative">
           <CardContent className="flex items-center justify-between py-4">
+            {/* mobile card menu */}
+            <CardMobileMenu
+              dropDownMenuContent={
+                <>
+                  <Link
+                    href={`/invoices/${invoice.id}/edit`}
+                    className="p-2 pl-4 hover:bg-neutral-500/20 rounded-lg duration-200 flex items-center gap-2"
+                  >
+                    <Pencil className="size-4" />
+                    <span className="text-sm">Edit</span>
+                  </Link>
+                  <DeleteDialog
+                    description={`Are you sure you want to delete this invoice?`}
+                    isDeleting={isDeleting}
+                    handleDelete={handleDelete}
+                    btnText="Delete"
+                    id={invoice.id}
+                  />
+                </>
+              }
+            />
+
             <div
               className="flex-1 cursor-pointer"
               onClick={() => router.push(`/invoices/${invoice.id}`)}
@@ -88,8 +111,16 @@ function InvoiceList({
               <p className="text-xs text-muted-foreground">
                 Due {format(new Date(invoice.dueDate), "MMM dd, yyyy")}
               </p>
+              <div className="block md:hidden mt-4">
+                <p className="text-lg font-mono font-semibold">
+                  ₱{invoice.total.toLocaleString()}
+                </p>
+                <Badge className={`text-xs ${statusColor[invoice.status]}`}>
+                  {invoice.status}
+                </Badge>
+              </div>
             </div>
-            <div className="flex items-center gap-4">
+            <div className="hidden md:flex items-center gap-4">
               <div className="text-right">
                 <p className="text-lg font-mono font-semibold">
                   ₱{invoice.total.toLocaleString()}
@@ -101,7 +132,7 @@ function InvoiceList({
               <div className="flex items-center">
                 <Link
                   href={`/invoices/${invoice.id}/edit`}
-                  className="p-2 hover:bg-blue-900 rounded-lg duration-200"
+                  className="p-2 hover:bg-neutral-500/20 rounded-lg duration-200"
                 >
                   <Pencil className="size-4" />
                 </Link>

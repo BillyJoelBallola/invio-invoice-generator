@@ -27,9 +27,9 @@ async function ClientDetailPage({
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center gap-2">
+      <div className="flex items-center md:gap-4">
         <BackButton />
-        <h1 className="text-2xl font-semibold">{client.name}</h1>
+        <h1 className="md:text-2xl font-semibold">{client.name}</h1>
       </div>
 
       <Card>

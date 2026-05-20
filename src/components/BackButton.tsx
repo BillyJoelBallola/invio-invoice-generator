@@ -13,7 +13,7 @@ function BackButton() {
       className="rounded-full cursor-pointer"
       onClick={() => router.back()}
     >
-      <ArrowLeft className="size-6" />
+      <ArrowLeft className="size-5 md:size-6" />
     </Button>
   );
 }

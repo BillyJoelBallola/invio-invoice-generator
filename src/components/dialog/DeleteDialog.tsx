@@ -19,6 +19,7 @@ type DeleteDialogProps = {
   isDeleting: boolean;
   handleDelete: (id: string) => Promise<string | number | undefined>;
   id: string;
+  btnText?: string;
 };
 
 function DeleteDialog({
@@ -26,6 +27,7 @@ function DeleteDialog({
   isDeleting,
   handleDelete,
   id,
+  btnText,
 }: DeleteDialogProps) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -34,10 +36,11 @@ function DeleteDialog({
       <DialogTrigger asChild>
         <Button
           variant="ghost"
-          size="icon"
-          className="hover:bg-red-100 dark:hover:bg-red-900 cursor-pointer"
+          size={btnText ? "default" : "icon"}
+          className={`${btnText && "flex items-center justify-baseline pl-3 gap-2 w-full"} hover:bg-neutral-500/20 cursor-pointer`}
         >
           <Trash2 />
+          {btnText && <span>{btnText}</span>}
         </Button>
       </DialogTrigger>
       <DialogContent>

@@ -16,15 +16,18 @@ import {
 } from "@/components/ui/dialog";
 import InputWithLabel from "@/components/input/InputWithLabel";
 
-type Client = {
-  id: string;
-  name: string;
-  email: string;
-  phone: string | null;
-  address: string | null;
+type ClientDialogProps = {
+  btnText?: string;
+  client?: {
+    id: string;
+    name: string;
+    email: string;
+    phone: string | null;
+    address: string | null;
+  };
 };
 
-function ClientDialog({ client }: { client?: Client }) {
+function ClientDialog({ client, btnText }: ClientDialogProps) {
   const isEditing = !!client;
 
   const router = useRouter();
@@ -74,14 +77,15 @@ function ClientDialog({ client }: { client?: Client }) {
           <Button
             variant="ghost"
             size="icon"
-            className="cursor-pointer hover:bg-blue-100 dark:hover:bg-blue-900"
+            className={`${btnText && "flex items-center justify-baseline pl-3 gap-2 w-full"} cursor-pointer hover:bg-neutral-500/20`}
           >
             <Pencil className="size-4" />
+            {btnText && <span>{btnText}</span>}
           </Button>
         ) : (
           <Button className="cursor-pointer">
             <Plus className="size-4" />
-            Add Client
+            <span className="hidden md:block">Add Client</span>
           </Button>
         )}
       </DialogTrigger>

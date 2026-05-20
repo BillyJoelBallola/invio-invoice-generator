@@ -49,12 +49,12 @@ async function DashboardPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-semibold">Dashboard</h1>
+      <h1 className="text-xl md:text-2xl font-semibold">Dashboard</h1>
 
       {/* Summary Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {summaryCards.map((card) => (
-          <Card key={card.label}>
+          <Card key={card.label} className="flex flex-col justify-between">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-sm font-medium text-muted-foreground">
                 {card.label}
@@ -62,7 +62,7 @@ async function DashboardPage() {
               <card.icon className={`size-4 ${card.color}`} />
             </CardHeader>
             <CardContent>
-              <p className="text-2xl font-bold">{card.value}</p>
+              <p className="text-lg md:text-2xl font-bold">{card.value}</p>
               <p className="text-xs text-muted-foreground mt-1">
                 {card.description}
               </p>

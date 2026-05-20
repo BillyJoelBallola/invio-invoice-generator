@@ -26,11 +26,11 @@ async function InvoicesPage({
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-semibold">Invoices</h1>
+        <h1 className="text-xl md:text-2xl font-semibold">Invoices</h1>
         <Link href="/invoices/new">
           <Button>
             <Plus className="size-4" />
-            New Invoice
+            <span className="hidden md:block">New Invoice</span>
           </Button>
         </Link>
       </div>

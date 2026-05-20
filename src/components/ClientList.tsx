@@ -3,12 +3,13 @@
 import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
-import { ChevronLeft, ChevronRight, Trash2, Users } from "lucide-react";
+import { ChevronLeft, ChevronRight, Users } from "lucide-react";
 import { deleteClient } from "@/actions/client.action";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import ClientDialog from "@/components/dialog/ClientDialog";
 import DeleteDialog from "@/components/dialog/DeleteDialog";
+import CardMobileMenu from "@/components/CardMenu";
 
 type Client = {
   id: string;
@@ -64,8 +65,24 @@ function ClientList({
   return (
     <div className="space-y-3">
       {clients.map((client) => (
-        <Card key={client.id}>
+        <Card key={client.id} className="relative">
           <CardContent className="flex items-center justify-between py-4">
+            {/* mobile card menu */}
+            <CardMobileMenu
+              dropDownMenuContent={
+                <>
+                  <ClientDialog client={client} btnText="Edit" />
+                  <DeleteDialog
+                    description="Are you sure you want to delete this client?"
+                    isDeleting={isDeleting}
+                    handleDelete={handleDelete}
+                    btnText="Delete"
+                    id={client.id}
+                  />
+                </>
+              }
+            />
+
             <div
               className="flex-1 cursor-pointer"
               onClick={() => router.push(`/clients/${client.id}`)}
@@ -75,8 +92,14 @@ function ClientList({
               {client.phone && (
                 <p className="text-xs text-muted-foreground">{client.phone}</p>
               )}
+              <div className="block md:hidden mt-4">
+                <p className="text-lg font-semibold">
+                  {client._count.invoices}
+                </p>
+                <p className="text-xs text-muted-foreground">invoices</p>
+              </div>
             </div>
-            <div className="flex items-center gap-6">
+            <div className="hidden md:flex items-center gap-6">
               <div className="text-right">
                 <p className="text-lg font-semibold">
                   {client._count.invoices}

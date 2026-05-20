@@ -29,7 +29,7 @@ async function InvoiceDetailPage({
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center gap-2">
+      <div className="flex flex-wrap items-center gap-2">
         <InvoicePreview invoice={invoice} />
         <InvoiceActions
           invoiceId={invoice.id}
@@ -39,9 +39,9 @@ async function InvoiceDetailPage({
       </div>
 
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
+        <div className="flex items-center md:gap-4">
           <BackButton />
-          <h1 className="text-2xl font-semibold">{invoice.number}</h1>
+          <h1 className="md:text-2xl font-semibold">{invoice.number}</h1>
         </div>
         <Badge className={statusColor[invoice.status]}>{invoice.status}</Badge>
       </div>

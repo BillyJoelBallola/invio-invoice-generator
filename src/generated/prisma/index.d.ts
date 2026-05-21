@@ -3534,10 +3534,16 @@ export namespace Prisma {
 
   export type InvoiceAvgAggregateOutputType = {
     total: number | null
+    subtotal: number | null
+    tax: number | null
+    taxAmount: number | null
   }
 
   export type InvoiceSumAggregateOutputType = {
     total: number | null
+    subtotal: number | null
+    tax: number | null
+    taxAmount: number | null
   }
 
   export type InvoiceMinAggregateOutputType = {
@@ -3546,10 +3552,14 @@ export namespace Prisma {
     status: $Enums.InvoiceStatus | null
     dueDate: Date | null
     total: number | null
+    subtotal: number | null
+    tax: number | null
+    taxAmount: number | null
     notes: string | null
     userId: string | null
     clientId: string | null
     createdAt: Date | null
+    shareToken: string | null
   }
 
   export type InvoiceMaxAggregateOutputType = {
@@ -3558,10 +3568,14 @@ export namespace Prisma {
     status: $Enums.InvoiceStatus | null
     dueDate: Date | null
     total: number | null
+    subtotal: number | null
+    tax: number | null
+    taxAmount: number | null
     notes: string | null
     userId: string | null
     clientId: string | null
     createdAt: Date | null
+    shareToken: string | null
   }
 
   export type InvoiceCountAggregateOutputType = {
@@ -3570,20 +3584,30 @@ export namespace Prisma {
     status: number
     dueDate: number
     total: number
+    subtotal: number
+    tax: number
+    taxAmount: number
     notes: number
     userId: number
     clientId: number
     createdAt: number
+    shareToken: number
     _all: number
   }
 
 
   export type InvoiceAvgAggregateInputType = {
     total?: true
+    subtotal?: true
+    tax?: true
+    taxAmount?: true
   }
 
   export type InvoiceSumAggregateInputType = {
     total?: true
+    subtotal?: true
+    tax?: true
+    taxAmount?: true
   }
 
   export type InvoiceMinAggregateInputType = {
@@ -3592,10 +3616,14 @@ export namespace Prisma {
     status?: true
     dueDate?: true
     total?: true
+    subtotal?: true
+    tax?: true
+    taxAmount?: true
     notes?: true
     userId?: true
     clientId?: true
     createdAt?: true
+    shareToken?: true
   }
 
   export type InvoiceMaxAggregateInputType = {
@@ -3604,10 +3632,14 @@ export namespace Prisma {
     status?: true
     dueDate?: true
     total?: true
+    subtotal?: true
+    tax?: true
+    taxAmount?: true
     notes?: true
     userId?: true
     clientId?: true
     createdAt?: true
+    shareToken?: true
   }
 
   export type InvoiceCountAggregateInputType = {
@@ -3616,10 +3648,14 @@ export namespace Prisma {
     status?: true
     dueDate?: true
     total?: true
+    subtotal?: true
+    tax?: true
+    taxAmount?: true
     notes?: true
     userId?: true
     clientId?: true
     createdAt?: true
+    shareToken?: true
     _all?: true
   }
 
@@ -3715,10 +3751,14 @@ export namespace Prisma {
     status: $Enums.InvoiceStatus
     dueDate: Date
     total: number
+    subtotal: number
+    tax: number
+    taxAmount: number
     notes: string | null
     userId: string
     clientId: string
     createdAt: Date
+    shareToken: string | null
     _count: InvoiceCountAggregateOutputType | null
     _avg: InvoiceAvgAggregateOutputType | null
     _sum: InvoiceSumAggregateOutputType | null
@@ -3746,10 +3786,14 @@ export namespace Prisma {
     status?: boolean
     dueDate?: boolean
     total?: boolean
+    subtotal?: boolean
+    tax?: boolean
+    taxAmount?: boolean
     notes?: boolean
     userId?: boolean
     clientId?: boolean
     createdAt?: boolean
+    shareToken?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     client?: boolean | ClientDefaultArgs<ExtArgs>
     items?: boolean | Invoice$itemsArgs<ExtArgs>
@@ -3762,10 +3806,14 @@ export namespace Prisma {
     status?: boolean
     dueDate?: boolean
     total?: boolean
+    subtotal?: boolean
+    tax?: boolean
+    taxAmount?: boolean
     notes?: boolean
     userId?: boolean
     clientId?: boolean
     createdAt?: boolean
+    shareToken?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     client?: boolean | ClientDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["invoice"]>
@@ -3776,10 +3824,14 @@ export namespace Prisma {
     status?: boolean
     dueDate?: boolean
     total?: boolean
+    subtotal?: boolean
+    tax?: boolean
+    taxAmount?: boolean
     notes?: boolean
     userId?: boolean
     clientId?: boolean
     createdAt?: boolean
+    shareToken?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     client?: boolean | ClientDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["invoice"]>
@@ -3790,13 +3842,17 @@ export namespace Prisma {
     status?: boolean
     dueDate?: boolean
     total?: boolean
+    subtotal?: boolean
+    tax?: boolean
+    taxAmount?: boolean
     notes?: boolean
     userId?: boolean
     clientId?: boolean
     createdAt?: boolean
+    shareToken?: boolean
   }
 
-  export type InvoiceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "number" | "status" | "dueDate" | "total" | "notes" | "userId" | "clientId" | "createdAt", ExtArgs["result"]["invoice"]>
+  export type InvoiceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "number" | "status" | "dueDate" | "total" | "subtotal" | "tax" | "taxAmount" | "notes" | "userId" | "clientId" | "createdAt" | "shareToken", ExtArgs["result"]["invoice"]>
   export type InvoiceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     client?: boolean | ClientDefaultArgs<ExtArgs>
@@ -3825,10 +3881,14 @@ export namespace Prisma {
       status: $Enums.InvoiceStatus
       dueDate: Date
       total: number
+      subtotal: number
+      tax: number
+      taxAmount: number
       notes: string | null
       userId: string
       clientId: string
       createdAt: Date
+      shareToken: string | null
     }, ExtArgs["result"]["invoice"]>
     composites: {}
   }
@@ -4260,10 +4320,14 @@ export namespace Prisma {
     readonly status: FieldRef<"Invoice", 'InvoiceStatus'>
     readonly dueDate: FieldRef<"Invoice", 'DateTime'>
     readonly total: FieldRef<"Invoice", 'Float'>
+    readonly subtotal: FieldRef<"Invoice", 'Float'>
+    readonly tax: FieldRef<"Invoice", 'Float'>
+    readonly taxAmount: FieldRef<"Invoice", 'Float'>
     readonly notes: FieldRef<"Invoice", 'String'>
     readonly userId: FieldRef<"Invoice", 'String'>
     readonly clientId: FieldRef<"Invoice", 'String'>
     readonly createdAt: FieldRef<"Invoice", 'DateTime'>
+    readonly shareToken: FieldRef<"Invoice", 'String'>
   }
     
 
@@ -5855,10 +5919,14 @@ export namespace Prisma {
     status: 'status',
     dueDate: 'dueDate',
     total: 'total',
+    subtotal: 'subtotal',
+    tax: 'tax',
+    taxAmount: 'taxAmount',
     notes: 'notes',
     userId: 'userId',
     clientId: 'clientId',
-    createdAt: 'createdAt'
+    createdAt: 'createdAt',
+    shareToken: 'shareToken'
   };
 
   export type InvoiceScalarFieldEnum = (typeof InvoiceScalarFieldEnum)[keyof typeof InvoiceScalarFieldEnum]
@@ -6127,10 +6195,14 @@ export namespace Prisma {
     status?: EnumInvoiceStatusFilter<"Invoice"> | $Enums.InvoiceStatus
     dueDate?: DateTimeFilter<"Invoice"> | Date | string
     total?: FloatFilter<"Invoice"> | number
+    subtotal?: FloatFilter<"Invoice"> | number
+    tax?: FloatFilter<"Invoice"> | number
+    taxAmount?: FloatFilter<"Invoice"> | number
     notes?: StringNullableFilter<"Invoice"> | string | null
     userId?: StringFilter<"Invoice"> | string
     clientId?: StringFilter<"Invoice"> | string
     createdAt?: DateTimeFilter<"Invoice"> | Date | string
+    shareToken?: StringNullableFilter<"Invoice"> | string | null
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     client?: XOR<ClientScalarRelationFilter, ClientWhereInput>
     items?: InvoiceItemListRelationFilter
@@ -6142,10 +6214,14 @@ export namespace Prisma {
     status?: SortOrder
     dueDate?: SortOrder
     total?: SortOrder
+    subtotal?: SortOrder
+    tax?: SortOrder
+    taxAmount?: SortOrder
     notes?: SortOrderInput | SortOrder
     userId?: SortOrder
     clientId?: SortOrder
     createdAt?: SortOrder
+    shareToken?: SortOrderInput | SortOrder
     user?: UserOrderByWithRelationInput
     client?: ClientOrderByWithRelationInput
     items?: InvoiceItemOrderByRelationAggregateInput
@@ -6154,12 +6230,16 @@ export namespace Prisma {
   export type InvoiceWhereUniqueInput = Prisma.AtLeast<{
     id?: string
     number?: string
+    shareToken?: string
     AND?: InvoiceWhereInput | InvoiceWhereInput[]
     OR?: InvoiceWhereInput[]
     NOT?: InvoiceWhereInput | InvoiceWhereInput[]
     status?: EnumInvoiceStatusFilter<"Invoice"> | $Enums.InvoiceStatus
     dueDate?: DateTimeFilter<"Invoice"> | Date | string
     total?: FloatFilter<"Invoice"> | number
+    subtotal?: FloatFilter<"Invoice"> | number
+    tax?: FloatFilter<"Invoice"> | number
+    taxAmount?: FloatFilter<"Invoice"> | number
     notes?: StringNullableFilter<"Invoice"> | string | null
     userId?: StringFilter<"Invoice"> | string
     clientId?: StringFilter<"Invoice"> | string
@@ -6167,7 +6247,7 @@ export namespace Prisma {
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     client?: XOR<ClientScalarRelationFilter, ClientWhereInput>
     items?: InvoiceItemListRelationFilter
-  }, "id" | "number">
+  }, "id" | "number" | "shareToken">
 
   export type InvoiceOrderByWithAggregationInput = {
     id?: SortOrder
@@ -6175,10 +6255,14 @@ export namespace Prisma {
     status?: SortOrder
     dueDate?: SortOrder
     total?: SortOrder
+    subtotal?: SortOrder
+    tax?: SortOrder
+    taxAmount?: SortOrder
     notes?: SortOrderInput | SortOrder
     userId?: SortOrder
     clientId?: SortOrder
     createdAt?: SortOrder
+    shareToken?: SortOrderInput | SortOrder
     _count?: InvoiceCountOrderByAggregateInput
     _avg?: InvoiceAvgOrderByAggregateInput
     _max?: InvoiceMaxOrderByAggregateInput
@@ -6195,10 +6279,14 @@ export namespace Prisma {
     status?: EnumInvoiceStatusWithAggregatesFilter<"Invoice"> | $Enums.InvoiceStatus
     dueDate?: DateTimeWithAggregatesFilter<"Invoice"> | Date | string
     total?: FloatWithAggregatesFilter<"Invoice"> | number
+    subtotal?: FloatWithAggregatesFilter<"Invoice"> | number
+    tax?: FloatWithAggregatesFilter<"Invoice"> | number
+    taxAmount?: FloatWithAggregatesFilter<"Invoice"> | number
     notes?: StringNullableWithAggregatesFilter<"Invoice"> | string | null
     userId?: StringWithAggregatesFilter<"Invoice"> | string
     clientId?: StringWithAggregatesFilter<"Invoice"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Invoice"> | Date | string
+    shareToken?: StringNullableWithAggregatesFilter<"Invoice"> | string | null
   }
 
   export type InvoiceItemWhereInput = {
@@ -6422,8 +6510,12 @@ export namespace Prisma {
     status?: $Enums.InvoiceStatus
     dueDate: Date | string
     total?: number
+    subtotal?: number
+    tax?: number
+    taxAmount?: number
     notes?: string | null
     createdAt?: Date | string
+    shareToken?: string | null
     user: UserCreateNestedOneWithoutInvoicesInput
     client: ClientCreateNestedOneWithoutInvoicesInput
     items?: InvoiceItemCreateNestedManyWithoutInvoiceInput
@@ -6435,10 +6527,14 @@ export namespace Prisma {
     status?: $Enums.InvoiceStatus
     dueDate: Date | string
     total?: number
+    subtotal?: number
+    tax?: number
+    taxAmount?: number
     notes?: string | null
     userId: string
     clientId: string
     createdAt?: Date | string
+    shareToken?: string | null
     items?: InvoiceItemUncheckedCreateNestedManyWithoutInvoiceInput
   }
 
@@ -6448,8 +6544,12 @@ export namespace Prisma {
     status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
     dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     total?: FloatFieldUpdateOperationsInput | number
+    subtotal?: FloatFieldUpdateOperationsInput | number
+    tax?: FloatFieldUpdateOperationsInput | number
+    taxAmount?: FloatFieldUpdateOperationsInput | number
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    shareToken?: NullableStringFieldUpdateOperationsInput | string | null
     user?: UserUpdateOneRequiredWithoutInvoicesNestedInput
     client?: ClientUpdateOneRequiredWithoutInvoicesNestedInput
     items?: InvoiceItemUpdateManyWithoutInvoiceNestedInput
@@ -6461,10 +6561,14 @@ export namespace Prisma {
     status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
     dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     total?: FloatFieldUpdateOperationsInput | number
+    subtotal?: FloatFieldUpdateOperationsInput | number
+    tax?: FloatFieldUpdateOperationsInput | number
+    taxAmount?: FloatFieldUpdateOperationsInput | number
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: StringFieldUpdateOperationsInput | string
     clientId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    shareToken?: NullableStringFieldUpdateOperationsInput | string | null
     items?: InvoiceItemUncheckedUpdateManyWithoutInvoiceNestedInput
   }
 
@@ -6474,10 +6578,14 @@ export namespace Prisma {
     status?: $Enums.InvoiceStatus
     dueDate: Date | string
     total?: number
+    subtotal?: number
+    tax?: number
+    taxAmount?: number
     notes?: string | null
     userId: string
     clientId: string
     createdAt?: Date | string
+    shareToken?: string | null
   }
 
   export type InvoiceUpdateManyMutationInput = {
@@ -6486,8 +6594,12 @@ export namespace Prisma {
     status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
     dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     total?: FloatFieldUpdateOperationsInput | number
+    subtotal?: FloatFieldUpdateOperationsInput | number
+    tax?: FloatFieldUpdateOperationsInput | number
+    taxAmount?: FloatFieldUpdateOperationsInput | number
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    shareToken?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type InvoiceUncheckedUpdateManyInput = {
@@ -6496,10 +6608,14 @@ export namespace Prisma {
     status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
     dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     total?: FloatFieldUpdateOperationsInput | number
+    subtotal?: FloatFieldUpdateOperationsInput | number
+    tax?: FloatFieldUpdateOperationsInput | number
+    taxAmount?: FloatFieldUpdateOperationsInput | number
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: StringFieldUpdateOperationsInput | string
     clientId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    shareToken?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type InvoiceItemCreateInput = {
@@ -6780,14 +6896,21 @@ export namespace Prisma {
     status?: SortOrder
     dueDate?: SortOrder
     total?: SortOrder
+    subtotal?: SortOrder
+    tax?: SortOrder
+    taxAmount?: SortOrder
     notes?: SortOrder
     userId?: SortOrder
     clientId?: SortOrder
     createdAt?: SortOrder
+    shareToken?: SortOrder
   }
 
   export type InvoiceAvgOrderByAggregateInput = {
     total?: SortOrder
+    subtotal?: SortOrder
+    tax?: SortOrder
+    taxAmount?: SortOrder
   }
 
   export type InvoiceMaxOrderByAggregateInput = {
@@ -6796,10 +6919,14 @@ export namespace Prisma {
     status?: SortOrder
     dueDate?: SortOrder
     total?: SortOrder
+    subtotal?: SortOrder
+    tax?: SortOrder
+    taxAmount?: SortOrder
     notes?: SortOrder
     userId?: SortOrder
     clientId?: SortOrder
     createdAt?: SortOrder
+    shareToken?: SortOrder
   }
 
   export type InvoiceMinOrderByAggregateInput = {
@@ -6808,14 +6935,21 @@ export namespace Prisma {
     status?: SortOrder
     dueDate?: SortOrder
     total?: SortOrder
+    subtotal?: SortOrder
+    tax?: SortOrder
+    taxAmount?: SortOrder
     notes?: SortOrder
     userId?: SortOrder
     clientId?: SortOrder
     createdAt?: SortOrder
+    shareToken?: SortOrder
   }
 
   export type InvoiceSumOrderByAggregateInput = {
     total?: SortOrder
+    subtotal?: SortOrder
+    tax?: SortOrder
+    taxAmount?: SortOrder
   }
 
   export type EnumInvoiceStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -7341,8 +7475,12 @@ export namespace Prisma {
     status?: $Enums.InvoiceStatus
     dueDate: Date | string
     total?: number
+    subtotal?: number
+    tax?: number
+    taxAmount?: number
     notes?: string | null
     createdAt?: Date | string
+    shareToken?: string | null
     client: ClientCreateNestedOneWithoutInvoicesInput
     items?: InvoiceItemCreateNestedManyWithoutInvoiceInput
   }
@@ -7353,9 +7491,13 @@ export namespace Prisma {
     status?: $Enums.InvoiceStatus
     dueDate: Date | string
     total?: number
+    subtotal?: number
+    tax?: number
+    taxAmount?: number
     notes?: string | null
     clientId: string
     createdAt?: Date | string
+    shareToken?: string | null
     items?: InvoiceItemUncheckedCreateNestedManyWithoutInvoiceInput
   }
 
@@ -7424,10 +7566,14 @@ export namespace Prisma {
     status?: EnumInvoiceStatusFilter<"Invoice"> | $Enums.InvoiceStatus
     dueDate?: DateTimeFilter<"Invoice"> | Date | string
     total?: FloatFilter<"Invoice"> | number
+    subtotal?: FloatFilter<"Invoice"> | number
+    tax?: FloatFilter<"Invoice"> | number
+    taxAmount?: FloatFilter<"Invoice"> | number
     notes?: StringNullableFilter<"Invoice"> | string | null
     userId?: StringFilter<"Invoice"> | string
     clientId?: StringFilter<"Invoice"> | string
     createdAt?: DateTimeFilter<"Invoice"> | Date | string
+    shareToken?: StringNullableFilter<"Invoice"> | string | null
   }
 
   export type ClientUpsertWithWhereUniqueWithoutUserInput = {
@@ -7494,8 +7640,12 @@ export namespace Prisma {
     status?: $Enums.InvoiceStatus
     dueDate: Date | string
     total?: number
+    subtotal?: number
+    tax?: number
+    taxAmount?: number
     notes?: string | null
     createdAt?: Date | string
+    shareToken?: string | null
     user: UserCreateNestedOneWithoutInvoicesInput
     items?: InvoiceItemCreateNestedManyWithoutInvoiceInput
   }
@@ -7506,9 +7656,13 @@ export namespace Prisma {
     status?: $Enums.InvoiceStatus
     dueDate: Date | string
     total?: number
+    subtotal?: number
+    tax?: number
+    taxAmount?: number
     notes?: string | null
     userId: string
     createdAt?: Date | string
+    shareToken?: string | null
     items?: InvoiceItemUncheckedCreateNestedManyWithoutInvoiceInput
   }
 
@@ -7750,8 +7904,12 @@ export namespace Prisma {
     status?: $Enums.InvoiceStatus
     dueDate: Date | string
     total?: number
+    subtotal?: number
+    tax?: number
+    taxAmount?: number
     notes?: string | null
     createdAt?: Date | string
+    shareToken?: string | null
     user: UserCreateNestedOneWithoutInvoicesInput
     client: ClientCreateNestedOneWithoutInvoicesInput
   }
@@ -7762,10 +7920,14 @@ export namespace Prisma {
     status?: $Enums.InvoiceStatus
     dueDate: Date | string
     total?: number
+    subtotal?: number
+    tax?: number
+    taxAmount?: number
     notes?: string | null
     userId: string
     clientId: string
     createdAt?: Date | string
+    shareToken?: string | null
   }
 
   export type InvoiceCreateOrConnectWithoutItemsInput = {
@@ -7790,8 +7952,12 @@ export namespace Prisma {
     status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
     dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     total?: FloatFieldUpdateOperationsInput | number
+    subtotal?: FloatFieldUpdateOperationsInput | number
+    tax?: FloatFieldUpdateOperationsInput | number
+    taxAmount?: FloatFieldUpdateOperationsInput | number
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    shareToken?: NullableStringFieldUpdateOperationsInput | string | null
     user?: UserUpdateOneRequiredWithoutInvoicesNestedInput
     client?: ClientUpdateOneRequiredWithoutInvoicesNestedInput
   }
@@ -7802,10 +7968,14 @@ export namespace Prisma {
     status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
     dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     total?: FloatFieldUpdateOperationsInput | number
+    subtotal?: FloatFieldUpdateOperationsInput | number
+    tax?: FloatFieldUpdateOperationsInput | number
+    taxAmount?: FloatFieldUpdateOperationsInput | number
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: StringFieldUpdateOperationsInput | string
     clientId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    shareToken?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type InvoiceCreateManyUserInput = {
@@ -7814,9 +7984,13 @@ export namespace Prisma {
     status?: $Enums.InvoiceStatus
     dueDate: Date | string
     total?: number
+    subtotal?: number
+    tax?: number
+    taxAmount?: number
     notes?: string | null
     clientId: string
     createdAt?: Date | string
+    shareToken?: string | null
   }
 
   export type ClientCreateManyUserInput = {
@@ -7834,8 +8008,12 @@ export namespace Prisma {
     status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
     dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     total?: FloatFieldUpdateOperationsInput | number
+    subtotal?: FloatFieldUpdateOperationsInput | number
+    tax?: FloatFieldUpdateOperationsInput | number
+    taxAmount?: FloatFieldUpdateOperationsInput | number
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    shareToken?: NullableStringFieldUpdateOperationsInput | string | null
     client?: ClientUpdateOneRequiredWithoutInvoicesNestedInput
     items?: InvoiceItemUpdateManyWithoutInvoiceNestedInput
   }
@@ -7846,9 +8024,13 @@ export namespace Prisma {
     status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
     dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     total?: FloatFieldUpdateOperationsInput | number
+    subtotal?: FloatFieldUpdateOperationsInput | number
+    tax?: FloatFieldUpdateOperationsInput | number
+    taxAmount?: FloatFieldUpdateOperationsInput | number
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     clientId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    shareToken?: NullableStringFieldUpdateOperationsInput | string | null
     items?: InvoiceItemUncheckedUpdateManyWithoutInvoiceNestedInput
   }
 
@@ -7858,9 +8040,13 @@ export namespace Prisma {
     status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
     dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     total?: FloatFieldUpdateOperationsInput | number
+    subtotal?: FloatFieldUpdateOperationsInput | number
+    tax?: FloatFieldUpdateOperationsInput | number
+    taxAmount?: FloatFieldUpdateOperationsInput | number
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     clientId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    shareToken?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ClientUpdateWithoutUserInput = {
@@ -7898,9 +8084,13 @@ export namespace Prisma {
     status?: $Enums.InvoiceStatus
     dueDate: Date | string
     total?: number
+    subtotal?: number
+    tax?: number
+    taxAmount?: number
     notes?: string | null
     userId: string
     createdAt?: Date | string
+    shareToken?: string | null
   }
 
   export type InvoiceUpdateWithoutClientInput = {
@@ -7909,8 +8099,12 @@ export namespace Prisma {
     status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
     dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     total?: FloatFieldUpdateOperationsInput | number
+    subtotal?: FloatFieldUpdateOperationsInput | number
+    tax?: FloatFieldUpdateOperationsInput | number
+    taxAmount?: FloatFieldUpdateOperationsInput | number
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    shareToken?: NullableStringFieldUpdateOperationsInput | string | null
     user?: UserUpdateOneRequiredWithoutInvoicesNestedInput
     items?: InvoiceItemUpdateManyWithoutInvoiceNestedInput
   }
@@ -7921,9 +8115,13 @@ export namespace Prisma {
     status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
     dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     total?: FloatFieldUpdateOperationsInput | number
+    subtotal?: FloatFieldUpdateOperationsInput | number
+    tax?: FloatFieldUpdateOperationsInput | number
+    taxAmount?: FloatFieldUpdateOperationsInput | number
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    shareToken?: NullableStringFieldUpdateOperationsInput | string | null
     items?: InvoiceItemUncheckedUpdateManyWithoutInvoiceNestedInput
   }
 
@@ -7933,9 +8131,13 @@ export namespace Prisma {
     status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
     dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     total?: FloatFieldUpdateOperationsInput | number
+    subtotal?: FloatFieldUpdateOperationsInput | number
+    tax?: FloatFieldUpdateOperationsInput | number
+    taxAmount?: FloatFieldUpdateOperationsInput | number
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    shareToken?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type InvoiceItemCreateManyInvoiceInput = {

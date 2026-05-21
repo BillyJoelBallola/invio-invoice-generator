@@ -3,6 +3,7 @@
 import prisma from "@/lib/prisma";
 import { currentUser } from "@/actions/user.action";
 import { InvoiceStatus } from "@/generated/prisma";
+import { randomBytes } from "crypto";
 
 async function generateInvoiceNumber(userId: string) {
   const count = await prisma.invoice.count({ where: { userId } });
@@ -82,21 +83,25 @@ export async function createInvoice({
   clientId,
   dueDate,
   notes,
+  tax,
   items,
 }: {
   clientId: string;
   dueDate: string;
   notes?: string;
+  tax: number;
   items: { description: string; quantity: number; price: number }[];
 }) {
   const user = await currentUser();
   if (!user) return { error: "Unauthorized." };
 
   try {
-    const total = items.reduce(
+    const subtotal = items.reduce(
       (sum, item) => sum + item.quantity * item.price,
       0,
     );
+    const taxAmount = (subtotal * tax) / 100;
+    const total = subtotal + taxAmount;
     const number = await generateInvoiceNumber(user.id);
 
     const invoice = await prisma.invoice.create({
@@ -104,6 +109,9 @@ export async function createInvoice({
         number,
         dueDate: new Date(dueDate),
         notes,
+        subtotal,
+        tax,
+        taxAmount,
         total,
         userId: user.id,
         clientId,
@@ -123,22 +131,26 @@ export async function updateInvoice({
   clientId,
   dueDate,
   notes,
+  tax,
   items,
 }: {
   id: string;
   clientId: string;
   dueDate: string;
   notes?: string;
+  tax: number;
   items: { description: string; quantity: number; price: number }[];
 }) {
   const user = await currentUser();
   if (!user) return { error: "Unauthorized." };
 
   try {
-    const total = items.reduce(
+    const subtotal = items.reduce(
       (sum, item) => sum + item.quantity * item.price,
       0,
     );
+    const taxAmount = (subtotal * tax) / 100;
+    const total = subtotal + taxAmount;
 
     // delete old items and recreate
     await prisma.invoiceItem.deleteMany({ where: { invoiceId: id } });
@@ -148,6 +160,9 @@ export async function updateInvoice({
       data: {
         dueDate: new Date(dueDate),
         notes,
+        subtotal,
+        tax,
+        taxAmount,
         total,
         clientId,
         items: {
@@ -222,5 +237,48 @@ export async function markOverdueInvoices() {
   } catch (error) {
     console.error(error);
     return { error: "An error occurred while marking overdue invoices." };
+  }
+}
+
+export async function generateShareToken(id: string) {
+  const user = await currentUser();
+  if (!user) return { error: "Unauthorized." };
+
+  try {
+    const token = randomBytes(32).toString("hex");
+
+    await prisma.invoice.update({
+      where: { id, userId: user.id },
+      data: { shareToken: token },
+    });
+
+    return { success: true, token };
+  } catch (error) {
+    console.error(error);
+    return { error: "An error occurred while generating share link." };
+  }
+}
+
+export async function getInvoiceByToken(token: string) {
+  return prisma.invoice.findUnique({
+    where: { shareToken: token },
+    include: { client: true, items: true },
+  });
+}
+
+export async function revokeShareToken(id: string) {
+  const user = await currentUser();
+  if (!user) return { error: "Unauthorized." };
+
+  try {
+    await prisma.invoice.update({
+      where: { id, userId: user.id },
+      data: { shareToken: null },
+    });
+
+    return { success: true };
+  } catch (error) {
+    console.error(error);
+    return { error: "An error occurred while revoking share link." };
   }
 }

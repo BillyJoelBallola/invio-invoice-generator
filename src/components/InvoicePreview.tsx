@@ -18,7 +18,11 @@ type Invoice = {
   status: InvoiceStatus;
   dueDate: Date;
   total: number;
+  subtotal: number;
+  tax: number;
+  taxAmount: number;
   notes: string | null;
+  shareToken: string | null;
   client: {
     name: string;
     email: string;
@@ -51,13 +55,13 @@ function InvoicePreview({ invoice }: { invoice: Invoice }) {
         className="cursor-pointer"
       >
         <Eye className="size-4" />
-        Preview
+        <span className="hidden md:block">Preview</span>
       </Button>
 
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent
           aria-describedby=""
-          className="max-w-2xl max-h-[90vh] overflow-y-auto"
+          className="w-[90vw] md:w-3xl max-h-[90vh] overflow-y-auto"
         >
           <DialogHeader>
             <DialogTitle>Invoice Preview</DialogTitle>
@@ -136,12 +140,25 @@ function InvoicePreview({ invoice }: { invoice: Invoice }) {
               ))}
 
               {/* Total */}
-              <div className="flex justify-end pt-4">
-                <div className="text-right">
-                  <p className="text-sm text-muted-foreground">Total</p>
-                  <p className="text-2xl font-bold font-mono">
-                    ₱{invoice.total.toLocaleString()}
-                  </p>
+              <div className="grid grid-cols-2">
+                <div />
+                <div className="grid grid-cols-2">
+                  <div className="">
+                    <p className="text-muted-foreground">Subtotal</p>
+                    <p className="text-muted-foreground">Tax {invoice.tax}%</p>
+                    <p className="text-xl text-muted-foreground">Total</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="font-bold font-mono">
+                      ₱{invoice.subtotal.toLocaleString()}
+                    </p>
+                    <p className="font-bold font-mono">
+                      ₱{invoice.taxAmount.toLocaleString()}
+                    </p>
+                    <p className="text-xl font-bold font-mono">
+                      ₱{invoice.total.toLocaleString()}
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>

@@ -38,6 +38,9 @@ model Invoice {
   status    InvoiceStatus @default(DRAFT)
   dueDate   DateTime
   total     Float         @default(0)
+  subtotal  Float         @default(0)
+  tax       Float         @default(0)
+  taxAmount Float         @default(0)
   notes     String?
   userId    String
   clientId  String
@@ -45,6 +48,8 @@ model Invoice {
   client    Client        @relation(fields: [clientId], references: [id], onDelete: Cascade)
   items     InvoiceItem[]
   createdAt DateTime      @default(now())
+
+  shareToken String? @unique
 }
 
 model InvoiceItem {

@@ -27,6 +27,7 @@ type Invoice = {
   dueDate: Date;
   notes: string | null;
   items: Item[];
+  tax: number;
 };
 
 function InvoiceForm({
@@ -47,6 +48,7 @@ function InvoiceForm({
   const [items, setItems] = useState<Item[]>(
     invoice?.items ?? [{ description: "", quantity: 1, price: 0 }],
   );
+  const [tax, setTax] = useState(invoice?.tax ?? 0);
 
   const addItem = () =>
     setItems((prev) => [...prev, { description: "", quantity: 1, price: 0 }]);
@@ -67,6 +69,8 @@ function InvoiceForm({
     (sum, item) => sum + item.quantity * item.price,
     0,
   );
+  const taxAmount = (subtotal * tax) / 100;
+  const total = subtotal + taxAmount;
 
   const isDisabled =
     isLoading ||
@@ -85,9 +89,10 @@ function InvoiceForm({
             clientId,
             dueDate,
             notes,
+            tax,
             items,
           })
-        : await createInvoice({ clientId, dueDate, notes, items });
+        : await createInvoice({ clientId, dueDate, notes, tax, items });
 
       if (response.error) return toast.error(response.error);
       if (response.success) {
@@ -142,6 +147,18 @@ function InvoiceForm({
               placeholder="Any additional notes..."
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label>Tax (%)</Label>
+            <Input
+              type="number"
+              min={0}
+              max={100}
+              placeholder="0"
+              value={tax}
+              onChange={(e) => setTax(Number(e.target.value))}
             />
           </div>
         </CardContent>
@@ -211,13 +228,27 @@ function InvoiceForm({
             </div>
           ))}
 
-          {/* Subtotal */}
+          {/* Subtotal / Tax / Total */}
           <div className="flex justify-end pt-4 border-t">
-            <div className="text-right space-y-1">
-              <p className="text-sm text-muted-foreground">Total</p>
-              <p className="text-2xl font-bold font-mono">
-                ₱{subtotal.toLocaleString()}
-              </p>
+            <div className="text-right space-y-1 min-w-48">
+              <div className="flex justify-between gap-8 text-sm">
+                <span className="text-muted-foreground">Subtotal</span>
+                <span className="font-mono">₱{subtotal.toLocaleString()}</span>
+              </div>
+              {tax > 0 && (
+                <div className="flex justify-between gap-8 text-sm">
+                  <span className="text-muted-foreground">Tax ({tax}%)</span>
+                  <span className="font-mono">
+                    ₱{taxAmount.toLocaleString()}
+                  </span>
+                </div>
+              )}
+              <div className="flex justify-between gap-8 pt-2 border-t">
+                <span className="font-semibold">Total</span>
+                <span className="text-2xl font-bold font-mono">
+                  ₱{total.toLocaleString()}
+                </span>
+              </div>
             </div>
           </div>
         </CardContent>

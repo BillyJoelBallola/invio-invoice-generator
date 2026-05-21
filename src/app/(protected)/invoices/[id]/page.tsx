@@ -6,7 +6,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import BackButton from "@/components/BackButton";
 import InvoiceStatusSelect from "@/components/InvoiceStatusSelect";
 import InvoiceActions from "@/components/InvoiceActions";
-import InvoicePreview from "@/components/InvoicePreview";
 
 export const dynamic = "force-dynamic";
 
@@ -29,14 +28,7 @@ async function InvoiceDetailPage({
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-wrap items-center gap-2">
-        <InvoicePreview invoice={invoice} />
-        <InvoiceActions
-          invoiceId={invoice.id}
-          invoiceNumber={invoice.number}
-          currentStatus={invoice.status}
-        />
-      </div>
+      <InvoiceActions invoice={invoice} />
 
       <div className="flex items-center justify-between">
         <div className="flex items-center md:gap-4">
@@ -97,11 +89,29 @@ async function InvoiceDetailPage({
             </div>
           ))}
           <div className="flex justify-end pt-4 border-t">
-            <div className="text-right">
-              <p className="text-sm text-muted-foreground">Total</p>
-              <p className="text-2xl font-bold font-mono">
-                ₱{invoice.total.toLocaleString()}
-              </p>
+            <div className="text-right space-y-1 min-w-48">
+              <div className="flex justify-between gap-8 text-sm">
+                <span className="text-muted-foreground">Subtotal</span>
+                <span className="font-mono">
+                  ₱{invoice.subtotal.toLocaleString()}
+                </span>
+              </div>
+              {invoice.tax > 0 && (
+                <div className="flex justify-between gap-8 text-sm">
+                  <span className="text-muted-foreground">
+                    Tax ({invoice.tax}%)
+                  </span>
+                  <span className="font-mono">
+                    ₱{invoice.taxAmount.toLocaleString()}
+                  </span>
+                </div>
+              )}
+              <div className="flex justify-between gap-8 pt-2 border-t">
+                <span className="font-semibold">Total</span>
+                <span className="text-2xl font-bold font-mono">
+                  ₱{invoice.total.toLocaleString()}
+                </span>
+              </div>
             </div>
           </div>
         </CardContent>

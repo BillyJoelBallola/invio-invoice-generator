@@ -9,16 +9,35 @@ import { updateInvoiceStatus } from "@/actions/invoice.action";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { InvoiceStatus } from "@/generated/prisma";
+import InvoicePreview from "@/components/InvoicePreview";
+import ShareInvoiceButton from "@/components/ShareInvoiceButton";
 
-function InvoiceActions({
-  invoiceId,
-  invoiceNumber,
-  currentStatus,
-}: {
-  invoiceId: string;
-  invoiceNumber: string;
-  currentStatus: InvoiceStatus;
-}) {
+type Invoice = {
+  id: string;
+  number: string;
+  status: InvoiceStatus;
+  dueDate: Date;
+  total: number;
+  subtotal: number;
+  tax: number;
+  taxAmount: number;
+  notes: string | null;
+  shareToken: string | null;
+  client: {
+    name: string;
+    email: string;
+    phone: string | null;
+    address: string | null;
+  };
+  items: {
+    id: string;
+    description: string;
+    quantity: number;
+    price: number;
+  }[];
+};
+
+function InvoiceActions({ invoice }: { invoice: Invoice }) {
   const router = useRouter();
   const [isDownloading, setIsDownloading] = useState(false);
   const [isSending, setIsSending] = useState(false);
@@ -26,7 +45,7 @@ function InvoiceActions({
   const handleDownload = async () => {
     setIsDownloading(true);
     try {
-      const response = await generateInvoicePDF(invoiceId);
+      const response = await generateInvoicePDF(invoice.id);
       if (response.error) return toast.error(response.error);
       if (!response.buffer) return;
 
@@ -38,7 +57,7 @@ function InvoiceActions({
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = response.filename ?? `${invoiceNumber}.pdf`;
+      a.download = response.filename ?? `${invoice.number}.pdf`;
       a.click();
       URL.revokeObjectURL(url);
     } catch {
@@ -51,12 +70,12 @@ function InvoiceActions({
   const handleSend = async () => {
     setIsSending(true);
     try {
-      const response = await sendInvoiceEmail(invoiceId);
+      const response = await sendInvoiceEmail(invoice.id);
       if (response.error) return toast.error(response.error);
 
       // auto update status to SENT
-      if (currentStatus === "DRAFT") {
-        await updateInvoiceStatus({ id: invoiceId, status: "SENT" });
+      if (invoice.status === "DRAFT") {
+        await updateInvoiceStatus({ id: invoice.id, status: "SENT" });
         router.refresh();
       }
 
@@ -70,6 +89,11 @@ function InvoiceActions({
 
   return (
     <div className="flex flex-wrap items-center gap-2">
+      <InvoicePreview invoice={invoice} />
+      <ShareInvoiceButton
+        invoiceId={invoice.id}
+        shareToken={invoice.shareToken ?? null}
+      />
       <Button
         className="cursor-pointer"
         variant="outline"
@@ -77,11 +101,15 @@ function InvoiceActions({
         disabled={isDownloading}
       >
         <Download className="size-4" />
-        {isDownloading ? "Downloading..." : "Download PDF"}
+        <span className="hidden md:block">
+          {isDownloading ? "Downloading..." : "Download PDF"}
+        </span>
       </Button>
       <Button className="cursor-pointer" onClick={handleSend} disabled>
         <Send className="size-4" />
-        {isSending ? "Sending..." : "Send Invoice"}
+        <span className="hidden md:block">
+          {isSending ? "Sending..." : "Send Invoice"}
+        </span>
       </Button>
     </div>
   );

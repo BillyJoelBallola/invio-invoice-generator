@@ -147,10 +147,14 @@ exports.Prisma.InvoiceScalarFieldEnum = {
   status: 'status',
   dueDate: 'dueDate',
   total: 'total',
+  subtotal: 'subtotal',
+  tax: 'tax',
+  taxAmount: 'taxAmount',
   notes: 'notes',
   userId: 'userId',
   clientId: 'clientId',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  shareToken: 'shareToken'
 };
 
 exports.Prisma.InvoiceItemScalarFieldEnum = {

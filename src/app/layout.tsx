@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
-import AppWrapper from "@/components/AppWrapper";
 import { Toaster } from "sonner";
 
 export const dynamic = "force-dynamic";
@@ -40,8 +39,8 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Toaster position="top-center" />
-          <AppWrapper>{children}</AppWrapper>
+          <Toaster position="top-right" />
+          {children}
         </ThemeProvider>
       </body>
     </html>

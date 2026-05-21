@@ -96,6 +96,9 @@ type Props = {
     number: string;
     status: string;
     dueDate: Date;
+    subtotal: number;
+    tax: number;
+    taxAmount: number;
     total: number;
     notes: string | null;
     client: {
@@ -202,10 +205,52 @@ function InvoicePDF({ invoice }: Props) {
 
           {/* Total */}
           <View style={styles.total}>
-            <Text style={styles.totalLabel}>Total</Text>
-            <Text style={styles.totalValue}>
-              ₱{invoice.total.toLocaleString()}
-            </Text>
+            <View>
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  marginBottom: 4,
+                }}
+              >
+                <Text style={[styles.totalLabel, { fontSize: 10 }]}>
+                  Subtotal
+                </Text>
+                <Text style={{ fontSize: 10 }}>
+                  ₱{invoice.subtotal.toLocaleString()}
+                </Text>
+              </View>
+              {invoice.tax > 0 && (
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    marginBottom: 4,
+                  }}
+                >
+                  <Text style={[styles.totalLabel, { fontSize: 10 }]}>
+                    Tax ({invoice.tax}%)
+                  </Text>
+                  <Text style={{ fontSize: 10 }}>
+                    ₱{invoice.taxAmount.toLocaleString()}
+                  </Text>
+                </View>
+              )}
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  paddingTop: 8,
+                  borderTopWidth: 1,
+                  borderTopColor: "#e5e7eb",
+                }}
+              >
+                <Text style={styles.totalLabel}>Total</Text>
+                <Text style={styles.totalValue}>
+                  ₱{invoice.total.toLocaleString()}
+                </Text>
+              </View>
+            </View>
           </View>
         </View>
 

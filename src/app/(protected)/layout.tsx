@@ -1,5 +1,11 @@
-function MainLayout({ children }: { children: React.ReactNode }) {
-  return <div>{children}</div>;
-}
+import AppWrapper from "@/components/AppWrapper";
 
-export default MainLayout;
+export const dynamic = "force-dynamic";
+
+export default function ProtectedLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return <AppWrapper>{children}</AppWrapper>;
+}

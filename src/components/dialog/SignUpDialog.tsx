@@ -14,8 +14,10 @@ import {
 } from "@/components/ui/dialog";
 import InputWithLabel from "@/components/input/InputWithLabel";
 import { Loader } from "lucide-react";
+import { Turnstile } from "@marsidev/react-turnstile";
 
 function SignUpDialog() {
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     username: "",
@@ -45,7 +47,9 @@ function SignUpDialog() {
     setIsLoading(true);
 
     try {
-      const response = await signUp(formData);
+      if (!turnstileToken) return toast.error("Please complete the captcha.");
+
+      const response = await signUp({ ...formData, turnstileToken });
       if (response.error) return toast.error(response.error);
       if (response.success) {
         toast.success("Account created! Please sign in.");
@@ -66,7 +70,7 @@ function SignUpDialog() {
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Sign Up</DialogTitle>
-          <DialogDescription>Create your Invoify account.</DialogDescription>
+          <DialogDescription>Create your Invio account.</DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
           <InputWithLabel
@@ -113,6 +117,11 @@ function SignUpDialog() {
               }))
             }
             required
+          />
+          <Turnstile
+            siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
+            onSuccess={(token) => setTurnstileToken(token)}
+            onExpire={() => setTurnstileToken(null)}
           />
           <Button type="submit" disabled={isDisabled} className="w-full">
             {isLoading ? (

@@ -12,17 +12,17 @@ export async function signUp({
   email,
   password,
   confirmPassword,
-  turnstileToken,
+  // turnstileToken,
 }: {
   username: string;
   email: string;
   password: string;
   confirmPassword: string;
-  turnstileToken: string;
+  // turnstileToken: string;
 }) {
   try {
-    const isHuman = await verifyTurnstile(turnstileToken);
-    if (!isHuman) return { error: "Captcha verification failed." };
+    // const isHuman = await verifyTurnstile(turnstileToken);
+    // if (!isHuman) return { error: "Captcha verification failed." };
 
     const existingUser = await prisma.user.findFirst({
       where: { OR: [{ username }, { email }] },
@@ -49,15 +49,15 @@ export async function signUp({
 export async function signIn({
   username,
   password,
-  turnstileToken,
+  // turnstileToken,
 }: {
   username: string;
   password: string;
-  turnstileToken: string;
+  // turnstileToken: string;
 }) {
   try {
-    const isHuman = await verifyTurnstile(turnstileToken);
-    if (!isHuman) return { error: "Captcha verification failed." };
+    // const isHuman = await verifyTurnstile(turnstileToken);
+    // if (!isHuman) return { error: "Captcha verification failed." };
 
     const user = await prisma.user.findUnique({
       where: { username },

@@ -7,7 +7,8 @@ import { randomBytes } from "crypto";
 
 async function generateInvoiceNumber(userId: string) {
   const count = await prisma.invoice.count({ where: { userId } });
-  return `INV-${String(count + 1).padStart(3, "0")}`;
+  const year = new Date().getFullYear();
+  return `INV-${year}-${String(count + 1).padStart(3, "0")}`;
 }
 
 export async function getInvoices(options?: {

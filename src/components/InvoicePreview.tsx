@@ -61,7 +61,7 @@ function InvoicePreview({ invoice }: { invoice: Invoice }) {
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent
           aria-describedby=""
-          className="w-[90vw] md:w-3xl max-h-[90vh] overflow-y-auto"
+          className="w-[90vw] md:w-2/3 max-h-[90vh] overflow-y-auto"
         >
           <DialogHeader>
             <DialogTitle>Invoice Preview</DialogTitle>

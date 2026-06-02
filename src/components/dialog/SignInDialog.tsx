@@ -19,7 +19,7 @@ import { Loader } from "lucide-react";
 
 function SignInDialog() {
   const router = useRouter();
-  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  // const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({ username: "", password: "" });
 
@@ -31,9 +31,12 @@ function SignInDialog() {
     setIsLoading(true);
 
     try {
-      if (!turnstileToken) return toast.error("Please complete the captcha.");
+      // if (!turnstileToken) return toast.error("Please complete the captcha.");
 
-      const response = await signIn({ ...formData, turnstileToken });
+      const response = await signIn({
+        ...formData,
+        // turnstileToken
+      });
       if (response.error) return toast.error(response.error);
       if (response.success) router.push("/dashboard");
     } catch {
@@ -75,11 +78,11 @@ function SignInDialog() {
             }
             required
           />
-          <Turnstile
+          {/* <Turnstile
             siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
             onSuccess={(token) => setTurnstileToken(token)}
             onExpire={() => setTurnstileToken(null)}
-          />
+          /> */}
           <Button type="submit" disabled={isDisabled} className="w-full">
             {isLoading ? (
               <>
